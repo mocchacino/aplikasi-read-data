@@ -3,7 +3,6 @@ import CardComponent from './components/CardComponent';
 import CardProfile from './components/CardProfile';
 import actionTypes from './actions/actionTypes';
 import HeadContent from './components/HeadContent';
-import SearchBar  from './components/SearchBar';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import 'semantic-ui-css/semantic.min.css';

@@ -2,6 +2,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { Card } from 'semantic-ui-react';
 
 const CardComponent = ({ data }) => {
+    
     return (
         
             <Card key={data.id}>
