@@ -3,16 +3,22 @@ import CardComponent from './components/CardComponent';
 import CardProfile from './components/CardProfile';
 import actionTypes from './actions/actionTypes';
 import HeadContent from './components/HeadContent';
+import SearchBar  from './components/SearchBar';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import 'semantic-ui-css/semantic.min.css';
-import { Segment, Grid, Card, Pagination, Divider } from 'semantic-ui-react';
+import { Segment, Grid, Card, Pagination, Divider,Input } from 'semantic-ui-react';
 // import {getPost} from "./store";
 
 
 const App = () => {
   const post = useSelector(state => state.post);
   const dispatch = useDispatch();
+
+  // SEARCH
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // PAGINATION
   const itemsPerPage = 4;
   const totalPages = Math.ceil((Object.keys(post).length)/itemsPerPage);
   const [ page, setPage ] = useState(1);
@@ -36,6 +42,8 @@ const App = () => {
     })
   }
 
+  const searchHandler = () =>{};
+
   return(
     <Grid columns='equal'>
       <Grid.Row></Grid.Row>
@@ -53,15 +61,34 @@ const App = () => {
                 <Grid.Row>
                   <Grid.Column width={3}></Grid.Column>
                   <Grid.Column width={7}>
+                    <Grid.Row>
+                    <Segment.Group>
+                      <Input 
+                          fluid
+                          name='searchText'
+                          placeholder='Cari Judul'
+                          onChange={e => {setSearchTerm(e.target.value)}}
+                      />
+                    </Segment.Group>
+                      <br/>
+                    </Grid.Row>
                     <Grid.Row >
                       <Card.Group centered>
-                        {post.slice(
+                        {post
+                        .filter((val) => {
+                          if(val.title.toLowerCase().includes(searchTerm.toLowerCase())){
+                            return val
+                          }
+                        })
+                        .slice(
                           (page - 1) * itemsPerPage,
                           (page - 1) * itemsPerPage + itemsPerPage)
                         .map(data => {
                           return (
                             <CardComponent 
                               data={data}
+                              term={searchTerm}
+                              searchKeyword = {searchHandler}
                             />
                           )})
                         }
