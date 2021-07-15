@@ -7,10 +7,12 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import 'semantic-ui-css/semantic.min.css';
 import { Segment, Grid, Card, Pagination, Divider,Input } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 // import {getPost} from "./store";
 
 
 const App = () => {
+  console.log(this.props);
   const post = useSelector(state => state.post);
   const dispatch = useDispatch();
 
@@ -30,15 +32,16 @@ const App = () => {
     getPost();
   }, [])
   
-  const getPost = () => {
+  const getPost = (props) => {
     axios.get('https://jsonplaceholder.typicode.com/posts')
     .then((result) => {
       dispatch({
+        // menentukan action apakah yang dilakukan reducer
         type: actionTypes.GET_POST,
         data: result.data
       })
-    
     })
+    .then(post.setState(data))
   }
 
   const searchHandler = () =>{};
@@ -121,4 +124,4 @@ const App = () => {
   )
     
 }
-export default App;
+export default connect(getPost)(App);
